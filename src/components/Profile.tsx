@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import profileImage from '../assets/profile.jpg';
 
 const Profile: React.FC = () => {
+    const [customer, setCustomer] = useState({
+        firstName: '',
+        lastName: '',
+        description: '',
+        email: '',
+        github: '',
+        linkedin: ''
+    });
+
+    useEffect(() => {
+        fetch('http://localhost:5050/api/customer')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Débogue ici pour voir ce que tu reçois
+                setCustomer(data);
+            })
+            .catch(error => console.error('Erreur:', error));
+    }, []);
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -13,14 +32,14 @@ const Profile: React.FC = () => {
                     />
                 </div>
                 <div className="col-md-8">
-                    <h1>Copin Thomas</h1>
+                    <h1>{customer.firstName} {customer.lastName}</h1>
                     <p className="lead">
-                        Je suis un développeur passionné par les technologies web et les jeux de société.
+                        {customer.description}
                     </p>
                     <ul className="list-unstyled">
-                        <li><strong>Email:</strong> thomas.copin@ifosup.wavre.be</li>
-                        <li><strong>LinkedIn:</strong> <a href="#">linkedin.com/in/thomas-copin-02935928b</a></li>
-                        <li><strong>GitHub:</strong> <a href="#">github.com/Tod2a</a></li>
+                        <li><strong>Email:</strong> {customer.email}</li>
+                        <li><strong>LinkedIn:</strong> <a href="#">{customer.linkedin}</a></li>
+                        <li><strong>GitHub:</strong> <a href="#">{customer.github}</a></li>
                     </ul>
                 </div>
             </div>
