@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import profileImage from '../assets/profile.jpg';
 
 const Profile: React.FC = () => {
     const [customer, setCustomer] = useState({
@@ -8,14 +7,14 @@ const Profile: React.FC = () => {
         description: '',
         email: '',
         github: '',
-        linkedin: ''
+        linkedin: '',
+        profileImage: ''
     });
 
     useEffect(() => {
         fetch('http://localhost:5050/api/customer')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Débogue ici pour voir ce que tu reçois
                 setCustomer(data);
             })
             .catch(error => console.error('Erreur:', error));
@@ -26,7 +25,7 @@ const Profile: React.FC = () => {
             <div className="row">
                 <div className="col-md-4">
                     <img
-                        src={profileImage}
+                        src={customer.profileImage}
                         alt="Profile"
                         className="img-fluid rounded-circle mb-3"
                     />
